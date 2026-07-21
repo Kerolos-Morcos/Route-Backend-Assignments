@@ -1,0 +1,70 @@
+1# What is the difference between forEach and for...of? When would you use each?
+
+Answer:
+- forEach is used for arrays and executes a callback for every element in the array,
+it doesn't support "break" or "continue".
+
+- for-of is used for iterating over iterables like: arrays, strings, maps, sets.
+it supports "break" and "continue".
+we can use forEach for simple iteration, and use for-of when we need more
+control over the loop.
+
+-----------------------------------------------------------------------------------
+2# What is hoisting and what is the Temporal Dead Zone (TDZ)? Explain with examples
+
+Answer:
+- hoisting: moving declarations to the top of their scope (global scope) before the
+code is executed.
+Example: 
+console.log(x); =====> undefined (according to hoisting)
+var x = 5;
+
+- TDZ: the time before a let or const variable is declared, where it
+exists but cannot be accessed.
+Example:
+console.log(y); =====> ReferenceError: cannot access "y" before initialization
+let y = 5;
+
+-----------------------------------------------------------------------------------
+3# What are the main differences between == and ===?
+Answer:
+Equality Operator (==): compares values only and ignores data types.
+Strict Equality Operator (===): compares both values and data types.
+
+-----------------------------------------------------------------------------------
+4# Explain how try-catch works and why it is important in async operations.
+Answer:
+try-catch is used to handle errors in JavaScript.
+In async operations, we use try-catch with async/await to catch rejected Promises
+and prevent the application from crashing.
+try {
+    async code
+} catch (err) {
+    console.log(err); ====> handle errors
+}
+Example:
+async function getData() {
+    try {
+        const data = await fetchData();
+        console.log(data);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+-----------------------------------------------------------------------------------
+5# What’s the difference between type conversion and coercion?
+Provide examples of each
+
+Answer:
+- coercion: It's also called "Implicit Casting", where JS automatically converts
+one data type to another when needed. (Ex. String to Number).
+Example:
+let x = 10;
+console.log(x - '5'); ====> 5 (coercion)
+
+- type conversion: It's also called "Explicit Casting", The programmer
+manually converts a value from one type to another.
+Example:
+let x = '10';
+console.log(Number(x) + 10) ====> 20 (type conversion)
