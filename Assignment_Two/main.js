@@ -234,92 +234,59 @@ const server = http.createServer((req, res) => {
     else if (method === "POST" && url === "/user") {
         let body = "";
         req.on("data", (chunk) => {
-            body += chunk;
+            body = JSON.parse(chunk.toString());
         });
         req.on("end", () => {
-            try {
-                const user = JSON.parse(body);
-                const users = JSON.parse(
-                    fs.readFileSync("users.json", "utf-8")
-                );
-                user.id =
-                    users.length > 0
-                        ? Math.max(...users.map((user) => user.id)) + 1
-                        : 1;
-                users.push(user);
-                fs.writeFileSync(
-                    "users.json",
-                    JSON.stringify(users, null, 2)
-                );
-                res.writeHead(201, {
-                    "Content-Type": "application/json"
-                });
-                res.end(JSON.stringify(user));
-            } catch (error) {
-                res.writeHead(400, {
-                    "Content-Type": "application/json"
-                });
-                res.end(JSON.stringify({
-                    message: "Invalid JSON data"
-                }));
+            const users = JSON.parse(fs.readFileSync("users.json", "utf-8"));
+            const isEmailExist = users.find((user) => user.email === body.email);
+            if (isEmailExist) {
+                res.writeHead(400, { "Content-Type": "application/json" });
+                res.end(JSON.stringify({ message: "Email already exists" }));
+                return;
             }
+            users.push(body);
+            fs.writeFileSync("users.json", JSON.stringify(users));
+            res.writeHead(201, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ message: "User created successfully" }));
         });
     }
     // /* PATCH /user/:id - Update a user by ID */
     else if (method === "PATCH" && url.startsWith("/user/")) {
         const id = Number(url.split("/")[2]);
-        if (Number.isNaN(id)) {
-            res.writeHead(400, {
-                "Content-Type": "application/json"
-            });
-            res.end(JSON.stringify({
-                message: "Invalid user ID"
-            }));
-            return;
-        }
         let body = "";
         req.on("data", (chunk) => {
-            body += chunk;
+            body = JSON.parse(chunk.toString());
         });
         req.on("end", () => {
-            try {
-                const updatedData = JSON.parse(body);
-                const users = JSON.parse(
-                    fs.readFileSync("users.json", "utf-8")
-                );
-                const userIndex = users.findIndex(
-                    (user) => user.id === id
-                );
-                if (userIndex === -1) {
-                    res.writeHead(404, {
-                        "Content-Type": "application/json"
-                    });
-                    res.end(JSON.stringify({
-                        message: "User not found"
-                    }));
-                    return;
-                }
-                users[userIndex] = {
-                    ...users[userIndex],
-                    ...updatedData,
-                    id: users[userIndex].id
-                };
-                fs.writeFileSync(
-                    "users.json",
-                    JSON.stringify(users, null, 2)
-                );
-                res.writeHead(200, {
-                    "Content-Type": "application/json"
-                });
-                res.end(JSON.stringify(users[userIndex]));
-            } catch (error) {
-                res.writeHead(400, {
+            const users = JSON.parse(
+                fs.readFileSync("users.json", "utf-8")
+            );
+            const userIndex = users.findIndex(
+                (user) => user.id === id
+            );
+            if (userIndex === -1) {
+                res.writeHead(404, {
                     "Content-Type": "application/json"
                 });
                 res.end(JSON.stringify({
-                    message: "Invalid JSON data"
+                    message: "User ID not found."
                 }));
+                return;
             }
+            users[userIndex] = {
+                ...users[userIndex],
+                ...body
+            };
+            fs.writeFileSync(
+                "users.json",
+                JSON.stringify(users)
+            );
+            res.writeHead(200, {
+                "Content-Type": "application/json"
+            });
+            res.end(JSON.stringify({
+                message: "User updated successfully."
+            }));
         });
     }
     // /* DELETE /user/:id - Delete a user by ID */
@@ -336,19 +303,21 @@ const server = http.createServer((req, res) => {
                 "Content-Type": "application/json"
             });
             res.end(JSON.stringify({
-                message: "User not found"
+                message: "User ID not found."
             }));
             return;
         }
-        const deletedUser = users.splice(userIndex, 1)[0];
+        users.splice(userIndex, 1);
         fs.writeFileSync(
             "users.json",
-            JSON.stringify(users, null, 2)
+            JSON.stringify(users)
         );
         res.writeHead(200, {
             "Content-Type": "application/json"
         });
-        res.end(JSON.stringify(deletedUser));
+        res.end(JSON.stringify({
+            message: "User deleted successfully."
+        }));
     }
     // /* GET /user/:id - Retrieve a user by ID */
     else if (method === "GET" && url.startsWith("/user/")) {
