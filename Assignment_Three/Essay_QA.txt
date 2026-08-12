@@ -1,0 +1,42 @@
+Q1. What is the Node.js Event Loop?
+=> The Event Loop is a mechanism in Node.js that allows it to perform
+   non-blocking asynchronous operations, even though JavaScript runs on a
+   single thread.
+
+
+Q2. What is Libuv and What Role Does It Play in Node.js?
+=> Libuv is a C library and a core part of Node.js. It provides the Event
+   Loop and Thread Pool (virtual threads), allowing Node.js to handle
+   asynchronous and non-blocking operations efficiently.
+
+
+Q3. How Does Node.js Handle Asynchronous Operations Under the Hood?
+=> By using the Event Loop and Libuv. When an asynchronous operation is
+   encountered, Node.js delegates it when appropriate to the operating system
+   or Libuv's Thread Pool. Some operations, such as file system operations,
+   are delegated to Libuv's Thread Pool. When the operation finishes, its callback
+   becomes ready. The Event Loop goes through its phases, such as Timers, Pending
+   Callbacks, Poll, Check, and Close Callbacks, and executes the callback in the
+   appropriate phase when the JavaScript call stack is available.
+
+
+Q4. What is the Difference Between the Call Stack, Event Queue, and Event
+    Loop in Node.js?
+=> The Call Stack executes JavaScript code. The Event Queue holds callbacks
+   that are ready to run, and the Event Loop coordinates their execution by
+   processing ready callbacks when the JavaScript call stack is available.
+
+
+Q5. What is the Node.js Thread Pool and How to Set the Thread Pool Size?
+=> The Thread Pool is a set of worker threads (virtual threads) managed by libuv
+   that Node.js uses to perform certain operations in the background without
+   blocking the main JavaScript thread.
+=> Its size: Its size can be configured using the UV_THREADPOOL_SIZE environment
+   variable or Crypto. 
+
+Q6. How Does Node.js Handle Blocking and Non-Blocking Code Execution?
+=> Node.js executes blocking code synchronously on the main thread, so it must
+   finish before the next code can execute. For non-blocking operations, Node.js
+   uses asynchronous APIs and relies on Libuv, the operating system, and the Event
+   Loop so the main thread can continue executing other code while waiting for the
+   operation to complete.

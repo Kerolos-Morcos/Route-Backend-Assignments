@@ -1,0 +1,26 @@
+[
+  {
+    "id": "8e8336fd-hi55-7g6m-q926-00f6gw654qz1",
+    "name": "Express User 1",
+    "email": "express1@gmail.com",
+    "age": 20
+  },
+  {
+    "id": "7d7225ec-g963-6h3c-c895-22hhg2121hd3",
+    "name": "Express User 2",
+    "email": "express2@gmail.com",
+    "age": 25
+  },
+  {
+    "id": "5c6114db-f852-5g2b-b784-11ggf1010gc1",
+    "name": "Express User 3",
+    "email": "express3@gmail.com",
+    "age": 30
+  },
+  {
+    "id": "700",
+    "name": "Delete Me",
+    "email": "deleteme@gmail.com",
+    "age": 0
+  }
+]
