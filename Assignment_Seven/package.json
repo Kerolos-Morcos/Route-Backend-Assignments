@@ -1,0 +1,18 @@
+{
+  "name": "assignment_seven",
+  "version": "1.0.0",
+  "description": "MongoDB Assignment",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Kerolos-Morcos-Route",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mongodb": "^7.6.0"
+  }
+}
