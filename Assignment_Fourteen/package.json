@@ -1,0 +1,21 @@
+{
+  "name": "assignment_fourteen",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"tsc -w\" \"node --watch dist/index.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "tsc": "^2.0.4",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}
